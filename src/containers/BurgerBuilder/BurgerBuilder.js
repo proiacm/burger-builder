@@ -44,6 +44,10 @@ class BurgerBuilder extends Component {
   removeIngredientHandler = (type) => {
     //update to ingredient count
     const prevCount = this.state.ingredients[type];
+    // prevent error from value going negative 
+    if (prevCount <= 0) {
+      return;
+    }
     const updatedCount = prevCount - 1;
     // state should be update in an immutable way: spread operator distributes props of old ingredient state into new object being created
     const updatedIngredients = {
@@ -59,12 +63,23 @@ class BurgerBuilder extends Component {
   }
 
   render() {
+
+    // disable button based on value 
+    const disableBtn = {
+      ...this.state.ingredients
+    };
+    for (let key in disableBtn) {
+      disableBtn[key] = disableBtn[key] <= 0
+    }; 
+    // {salad: true, meat: false, ...}
+
     return (
         <Aux>
           <Burger ingredients={this.state.ingredients} />
           <BuildControls 
             ingredientAdded={this.addIngredientHandler}
             ingredientRemoved={this.removeIngredientHandler}
+            disabled={disableBtn}
           />
         </Aux>
     );
