@@ -26,10 +26,7 @@ class BurgerBuilder extends Component {
 
   // will add sum of ingredients and change purchasable to true if sum > 0
   // will be used in add && remove IngredientHandlers
-  updatePurchaseState() {
-    const ingredients = {
-      ...this.state.ingredients
-    }
+  updatePurchaseState(ingredients) {
     const sum = Object.keys(ingredients).map(igKey => {
       return ingredients[igKey];
     }).reduce((sum, el) => {
@@ -53,7 +50,7 @@ class BurgerBuilder extends Component {
     const prevPrice = this.state.totalPrice;
     const newPrice = prevPrice + priceAddition;
     this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
-    this.updatePurchaseState();
+    this.updatePurchaseState(updatedIngredients);
   }
 
    // receives type of ingredient being added 
@@ -75,7 +72,7 @@ class BurgerBuilder extends Component {
     const prevPrice = this.state.totalPrice;
     const newPrice = prevPrice - priceDeduction;
     this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
-    this.updatePurchaseState();
+    this.updatePurchaseState(updatedIngredients);
   }
 
   render() {
