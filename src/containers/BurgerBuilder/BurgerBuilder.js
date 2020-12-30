@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Burger from '../../components/Burger/Burger';
 import Aux from '../../hoc/Aux';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 // all caps for global const
 const INGREDIENT_PRICES = {
@@ -21,7 +23,8 @@ class BurgerBuilder extends Component {
       meat: 0
     },
     totalPrice : 0,
-    purchasable: false
+    purchasable: false,
+    purchasing: false
   }
 
   // will add sum of ingredients and change purchasable to true if sum > 0
@@ -88,6 +91,9 @@ class BurgerBuilder extends Component {
 
     return (
         <Aux>
+          <Modal>
+            <OrderSummary ingredients={this.state.ingredients} />
+          </Modal>
           <Burger ingredients={this.state.ingredients} />
           <BuildControls 
             ingredientAdded={this.addIngredientHandler}
