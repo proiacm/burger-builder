@@ -40,7 +40,21 @@ class BurgerBuilder extends Component {
     this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
   }
 
+   // receives type of ingredient being added 
   removeIngredientHandler = (type) => {
+    //update to ingredient count
+    const prevCount = this.state.ingredients[type];
+    const updatedCount = prevCount - 1;
+    // state should be update in an immutable way: spread operator distributes props of old ingredient state into new object being created
+    const updatedIngredients = {
+      ...this.state.ingredients
+    };
+    updatedIngredients[type] = updatedCount;
+    // update to total price
+    const priceDeduction = INGREDIENT_PRICES[type];
+    const prevPrice = this.state.totalPrice;
+    const newPrice = prevPrice + priceDeduction;
+    this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
 
   }
 
@@ -49,7 +63,9 @@ class BurgerBuilder extends Component {
         <Aux>
           <Burger ingredients={this.state.ingredients} />
           <BuildControls 
-            ingredientAdded={this.addIngredientHandler}/>
+            ingredientAdded={this.addIngredientHandler}
+            ingredientRemoved={this.removeIngredientHandler}
+          />
         </Aux>
     );
   }
